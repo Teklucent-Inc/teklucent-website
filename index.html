@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,16 +8,15 @@
     <!-- Favicon -->
     <link rel="icon" href="favicon_tl.png" type="image/png">
     
-    <!-- Tailwind CSS for rapid styling -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Tailwind Configuration & Custom Styles -->
     <script>
         tailwind.config = {
             theme: {
@@ -27,16 +26,8 @@
                     },
                     colors: {
                         brand: {
-                            50: '#fff7ed',
-                            100: '#ffedd5',
-                            200: '#fed7aa',
-                            300: '#fdba74',
-                            400: '#fb923c',
                             500: '#f97316', // Primary Orange
                             600: '#ea580c',
-                            700: '#c2410c',
-                            800: '#9a3412',
-                            900: '#7c2d12',
                         }
                     }
                 }
@@ -45,12 +36,50 @@
     </script>
 
     <style>
-        /* Custom Marquee Animation */
+        /* Ambient Rising Sun Glow - Fixed to bottom center */
+        .ambient-glow {
+            position: fixed;
+            bottom: -40vh;
+            left: 50%;
+            width: 100vw;
+            height: 100vw;
+            max-width: 1200px;
+            max-height: 1200px;
+            background: radial-gradient(circle, rgba(249, 115, 22, 0.15) 0%, rgba(249, 115, 22, 0.05) 40%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+            pointer-events: none;
+            animation: pulseGlow 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: translateX(-50%) scale(1); opacity: 0.7; }
+            100% { transform: translateX(-50%) scale(1.15); opacity: 1; }
+        }
+
+        /* Subtle fade-in animation for content load */
+        .fade-in {
+            animation: fadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+            transform: translateY(24px);
+        }
+
+        .delay-100 { animation-delay: 0.15s; }
+        .delay-200 { animation-delay: 0.3s; }
+        .delay-300 { animation-delay: 0.45s; }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Marquee Animation */
         .marquee-container {
             overflow: hidden;
             white-space: nowrap;
             position: relative;
-            background: linear-gradient(90deg, #ea580c 0%, #f97316 50%, #ea580c 100%);
         }
         
         .marquee-content {
@@ -63,8 +92,8 @@
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            color: white;
-            font-weight: 500;
+            color: #ea580c;
+            font-weight: 600;
             font-size: 1.125rem;
         }
 
@@ -73,307 +102,159 @@
             100% { transform: translateX(-50%); }
         }
 
-        /* Hover to pause marquee */
         .marquee-container:hover .marquee-content {
             animation-play-state: paused;
         }
 
-        /* Fade-up Animation Classes */
-        .fade-up {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        /* Continuous subtle float for cards */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
         }
-
-        .fade-up.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .delay-100 { transition-delay: 100ms; }
-        .delay-200 { transition-delay: 200ms; }
-        .delay-300 { transition-delay: 300ms; }
-
-        /* Rising Sun Background Glow */
-        .sun-glow {
-            position: absolute;
-            top: -20%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80vw;
-            height: 80vw;
-            max-width: 1000px;
-            max-height: 1000px;
-            background: radial-gradient(circle, rgba(253,186,116,0.35) 0%, rgba(255,237,213,0.1) 50%, rgba(255,255,255,0) 70%);
-            border-radius: 50%;
-            z-index: -1;
-            pointer-events: none;
-        }
+        
+        .float-anim { animation: float 6s ease-in-out infinite; }
+        .float-delay-1 { animation-delay: 0s; }
+        .float-delay-2 { animation-delay: 2s; }
+        .float-delay-3 { animation-delay: 4s; }
     </style>
 </head>
-<body class="bg-white text-slate-800 font-sans antialiased overflow-x-hidden selection:bg-brand-200 selection:text-brand-900">
+<body class="bg-[#fafafa] text-slate-900 font-sans antialiased min-h-[100dvh] flex flex-col overflow-x-hidden selection:bg-brand-500 selection:text-white">
 
-    <!-- Navbar -->
-    <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-brand-100 transition-all duration-300" id="navbar">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="flex items-center">
-                <!-- Custom Teklucent Logo -->
-                <img src="logo.png" alt="Teklucent Logo" class="h-14 w-auto object-contain" onerror="this.onerror=null; this.src='https://via.placeholder.com/200x60/f97316/ffffff?text=Logo+Missing';">
-            </a>
-            <div class="hidden md:flex gap-8 text-sm font-medium text-slate-600">
-                <a href="#services" class="hover:text-brand-600 transition-colors">Services</a>
-                <a href="#expertise" class="hover:text-brand-600 transition-colors">Expertise</a>
-            </div>
-            <a href="mailto:info@teklucent.com" class="bg-slate-900 hover:bg-brand-600 text-white px-5 py-2.5 rounded-full text-sm font-medium transition-all shadow-lg hover:shadow-brand-500/30">
-                Get in Touch
-            </a>
-        </div>
-    </nav>
+    <!-- Background Glow -->
+    <div class="ambient-glow"></div>
 
-    <!-- Hero Section -->
-    <section class="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
-        <div class="sun-glow"></div>
-        <div class="max-w-7xl mx-auto px-6 text-center relative z-10">        
-            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 mb-6 leading-tight fade-up delay-100">
-                Illuminating the Future of <br class="hidden md:block"/>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-amber-500">Digital Transformation</span>
-            </h1>
-            
-            <p class="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto mb-10 fade-up delay-200">
-                We empower your business with AI, data-driven solutions, and flawless execution. Brighter ideas. Faster growth. Powered by insight.
-            </p>
-            
-            <div class="flex flex-col sm:flex-row justify-center items-center gap-4 fade-up delay-300">
-                <a href="mailto:info@teklucent.com" class="w-full sm:w-auto px-8 py-4 bg-brand-500 hover:bg-brand-600 text-white rounded-full font-semibold transition-all shadow-xl shadow-brand-500/20 flex items-center justify-center gap-2">
-                    Start a Conversation <i data-lucide="arrow-right" class="w-5 h-5"></i>
-                </a>
-                <a href="#services" class="w-full sm:w-auto px-8 py-4 bg-white border border-slate-200 hover:border-brand-300 text-slate-700 rounded-full font-semibold transition-all flex items-center justify-center">
-                    Explore Capabilities
-                </a>
-            </div>
-        </div>
-    </section>
+    <!-- Header / Nav -->
+    <header class="relative z-10 w-full px-6 py-8 md:px-12 flex justify-between items-center fade-in">
+        <a href="#" class="block">
+            <img src="logo.png" alt="Teklucent Logo" class="h-10 md:h-12 w-auto object-contain" onerror="this.onerror=null; this.src='https://via.placeholder.com/150x45/f97316/ffffff?text=Teklucent';">
+        </a>
+        <a href="mailto:info@teklucent.com" class="hidden sm:inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-slate-900 text-white rounded-full text-sm font-semibold transition-all hover:bg-brand-600 hover:shadow-lg hover:shadow-brand-500/20">
+            <i data-lucide="mail" class="w-4 h-4"></i> Email info@teklucent.com
+        </a>
+    </header>
 
-    <!-- Capabilities Marquee -->
-    <section class="border-y border-brand-600/20 fade-up">
-        <div class="marquee-container py-4">
-            <div class="marquee-content">
-                <!-- Set 1 -->
-                <div class="marquee-item"><i data-lucide="bot" class="w-5 h-5"></i> AI Automation</div>
-                <div class="marquee-item"><i data-lucide="database" class="w-5 h-5"></i> Data Analytics</div>
-                <div class="marquee-item"><i data-lucide="heart-pulse" class="w-5 h-5"></i> Healthcare Tech</div>
-                <div class="marquee-item"><i data-lucide="flask-conical" class="w-5 h-5"></i> Life Sciences</div>
-                <div class="marquee-item"><i data-lucide="shield-check" class="w-5 h-5"></i> Regulatory Compliance</div>
-                <div class="marquee-item"><i data-lucide="smartphone" class="w-5 h-5"></i> Web Applications</div>
-                <div class="marquee-item"><i data-lucide="activity" class="w-5 h-5"></i> Telehealth Integration</div>
-                <!-- Duplicate Set for seamless looping -->
-                <div class="marquee-item"><i data-lucide="bot" class="w-5 h-5"></i> AI Automation</div>
-                <div class="marquee-item"><i data-lucide="database" class="w-5 h-5"></i> Data Analytics</div>
-                <div class="marquee-item"><i data-lucide="heart-pulse" class="w-5 h-5"></i> Healthcare Tech</div>
-                <div class="marquee-item"><i data-lucide="flask-conical" class="w-5 h-5"></i> Life Sciences</div>
-                <div class="marquee-item"><i data-lucide="shield-check" class="w-5 h-5"></i> Regulatory Compliance</div>
-                <div class="marquee-item"><i data-lucide="smartphone" class="w-5 h-5"></i> Web Applications</div>
-                <div class="marquee-item"><i data-lucide="activity" class="w-5 h-5"></i> Telehealth Integration</div>
-            </div>
-        </div>
-    </section>
+    <!-- Main Content (Centered) -->
+    <main class="relative z-10 flex-1 flex flex-col items-center text-center pt-8 pb-24 w-full">
+        
+            <!-- Main Headline -->
+        <h1 class="fade-in delay-100 px-6 text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-slate-900 mb-6 leading-[1.1]">
+            Illuminating Tech Solutions <br class="hidden md:block" />
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-amber-500">for a Digital Tomorrow.</span>
+        </h1>
 
-    <!-- Services Section -->
-    <section id="services" class="py-24 bg-slate-50 relative">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center max-w-3xl mx-auto mb-16 fade-up">
-                <h2 class="text-brand-600 font-semibold tracking-wide uppercase text-sm mb-2">How We Help</h2>
-                <h3 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">A complete ecosystem for your digital evolution.</h3>
-                <p class="text-slate-600">From the whiteboard to the final deployment, we provide the expertise required to modernize healthcare infrastructure securely and effectively.</p>
-            </div>
+        <!-- Subheadline -->
+        <p class="fade-in delay-200 px-6 text-lg md:text-xl text-slate-500 max-w-2xl mx-auto mb-12 font-light leading-relaxed">
+            We are your specialized partners in navigating complex digital transformations. Empowering operations with data-driven insights and flawless execution.
+        </p>
 
-            <div class="grid md:grid-cols-3 gap-8">
-                <!-- Strategy -->
-                <div class="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:border-brand-200 transition-all group fade-up delay-100">
-                    <div class="w-14 h-14 bg-brand-50 rounded-xl flex items-center justify-center text-brand-600 mb-6 group-hover:scale-110 transition-transform">
-                        <i data-lucide="map" class="w-7 h-7"></i>
-                    </div>
-                    <h4 class="text-xl font-bold text-slate-900 mb-3">Strategy Partners</h4>
-                    <p class="text-slate-600 mb-6 leading-relaxed">
-                        Develop clear milestones, architect a scalable plan, and define metrics to ensure your digital initiatives achieve measurable business goals in the healthcare space.
-                    </p>
-                    <ul class="space-y-2 text-sm text-slate-600">
-                        <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-brand-500"></i> Roadmapping & Architecture</li>
-                        <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-brand-500"></i> Digital Readiness Assessment</li>
-                    </ul>
-                </div>
-
-                <!-- Product -->
-                <div class="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:border-brand-200 transition-all group fade-up delay-200">
-                    <div class="w-14 h-14 bg-brand-50 rounded-xl flex items-center justify-center text-brand-600 mb-6 group-hover:scale-110 transition-transform">
-                        <i data-lucide="box" class="w-7 h-7"></i>
-                    </div>
-                    <h4 class="text-xl font-bold text-slate-900 mb-3">Product Development</h4>
-                    <p class="text-slate-600 mb-6 leading-relaxed">
-                        Tactical engineering to bring your vision to life. We help you with execution from concept (Zero) through Minimum Viable Product (MVP) all the way to Scale.
-                    </p>
-                    <ul class="space-y-2 text-sm text-slate-600">
-                        <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-brand-500"></i> MVP Prototyping</li>
-                        <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-brand-500"></i> Custom Web & App Solutions</li>
-                    </ul>
-                </div>
-
-                <!-- Implementation -->
-                <div class="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:border-brand-200 transition-all group fade-up delay-300">
-                    <div class="w-14 h-14 bg-brand-50 rounded-xl flex items-center justify-center text-brand-600 mb-6 group-hover:scale-110 transition-transform">
-                        <i data-lucide="users" class="w-7 h-7"></i>
-                    </div>
-                    <h4 class="text-xl font-bold text-slate-900 mb-3">Implementation Partners</h4>
-                    <p class="text-slate-600 mb-6 leading-relaxed">
-                        We seamlessly integrate with your existing workforce to augment your team's capabilities, solving complex technical needs and ensuring smooth rollouts.
-                    </p>
-                    <ul class="space-y-2 text-sm text-slate-600">
-                        <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-brand-500"></i> Team Augmentation</li>
-                        <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-brand-500"></i> Secure System Integration</li>
-                    </ul>
+        <!-- Capabilities Marquee -->
+        <div class="w-full border-y border-brand-200/50 bg-brand-50/50 backdrop-blur-sm fade-in delay-200 mb-16">
+            <div class="marquee-container py-4">
+                <div class="marquee-content">
+                    <div class="marquee-item"><i data-lucide="bot" class="w-5 h-5"></i> AI Automation</div>
+                    <div class="marquee-item"><i data-lucide="database" class="w-5 h-5"></i> Data Analytics</div>
+                    <div class="marquee-item"><i data-lucide="heart-pulse" class="w-5 h-5"></i> Healthcare Tech</div>
+                    <div class="marquee-item"><i data-lucide="flask-conical" class="w-5 h-5"></i> Life Sciences</div>
+                    <div class="marquee-item"><i data-lucide="shield-check" class="w-5 h-5"></i> Regulatory Compliance</div>
+                    <div class="marquee-item"><i data-lucide="smartphone" class="w-5 h-5"></i> Web Applications</div>
+                    <div class="marquee-item"><i data-lucide="activity" class="w-5 h-5"></i> Telehealth Integration</div>
+                    <!-- Duplicate Set for seamless looping -->
+                    <div class="marquee-item"><i data-lucide="bot" class="w-5 h-5"></i> AI Automation</div>
+                    <div class="marquee-item"><i data-lucide="database" class="w-5 h-5"></i> Data Analytics</div>
+                    <div class="marquee-item"><i data-lucide="heart-pulse" class="w-5 h-5"></i> Healthcare Tech</div>
+                    <div class="marquee-item"><i data-lucide="flask-conical" class="w-5 h-5"></i> Life Sciences</div>
+                    <div class="marquee-item"><i data-lucide="shield-check" class="w-5 h-5"></i> Regulatory Compliance</div>
+                    <div class="marquee-item"><i data-lucide="smartphone" class="w-5 h-5"></i> Web Applications</div>
+                    <div class="marquee-item"><i data-lucide="activity" class="w-5 h-5"></i> Telehealth Integration</div>
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- Expertise Showcase Section -->
-    <section id="expertise" class="py-24 bg-white overflow-hidden">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="flex flex-col lg:flex-row items-center gap-16">
-                <!-- Abstract Graphic / Tech Grid -->
-                <div class="w-full lg:w-1/2 relative fade-up">
-                    <div class="absolute inset-0 bg-gradient-to-tr from-brand-100 to-white rounded-3xl transform -rotate-3 scale-105 z-0"></div>
-                    <div class="relative z-10 bg-slate-900 rounded-3xl p-8 text-white shadow-2xl">
-                        <div class="flex justify-between items-center mb-8 border-b border-slate-700 pb-4">
-                            <h4 class="font-semibold text-brand-400">Industry Focus</h4>
-                            <i data-lucide="microscope" class="text-slate-400"></i>
-                        </div>
-                        <div class="space-y-6">
-                            <div class="flex items-start gap-4">
-                                <div class="bg-slate-800 p-3 rounded-lg"><i data-lucide="heart-pulse" class="text-brand-400"></i></div>
-                                <div>
-                                    <h5 class="font-semibold mb-1">Healthcare Providers</h5>
-                                    <p class="text-slate-400 text-sm">Enhancing patient care through data analytics and streamlined operational applications.</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start gap-4">
-                                <div class="bg-slate-800 p-3 rounded-lg"><i data-lucide="flask-conical" class="text-brand-400"></i></div>
-                                <div>
-                                    <h5 class="font-semibold mb-1">Life Sciences & Pharma</h5>
-                                    <p class="text-slate-400 text-sm">Accelerating research and development pipelines with secure, compliant AI automation.</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start gap-4">
-                                <div class="bg-slate-800 p-3 rounded-lg"><i data-lucide="shield" class="text-brand-400"></i></div>
-                                <div>
-                                    <h5 class="font-semibold mb-1">Data & Compliance</h5>
-                                    <p class="text-slate-400 text-sm">Strict adherence to healthcare data regulations ensuring privacy and infrastructure security.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        <!-- The 3 Pillars (Expanded Cards) -->
+        <div class="grid md:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto px-6 fade-in delay-300 text-left">
+            <!-- Strategy -->
+            <div class="float-anim float-delay-1 bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:border-brand-200 transition-all group">
+                <div class="w-12 h-12 bg-brand-50 rounded-xl flex items-center justify-center text-brand-600 mb-6 group-hover:scale-110 transition-transform">
+                    <i data-lucide="map" class="w-6 h-6"></i>
                 </div>
+                <h4 class="text-xl font-bold text-slate-900 mb-3">Strategy Partners</h4>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Develop clear milestones, architect a scalable plan, and define metrics to ensure your digital initiatives achieve measurable business goals in the healthcare space.
+                </p>
+            </div>
+
+            <!-- Product -->
+            <div class="float-anim float-delay-2 bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:border-brand-200 transition-all group">
+                <div class="w-12 h-12 bg-brand-50 rounded-xl flex items-center justify-center text-brand-600 mb-6 group-hover:scale-110 transition-transform">
+                    <i data-lucide="box" class="w-6 h-6"></i>
+                </div>
+                <h4 class="text-xl font-bold text-slate-900 mb-3">Product Development</h4>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Tactical engineering to bring your vision to life. We help you with execution from concept (Zero) through Minimum Viable Product (MVP) all the way to Scale.
+                </p>
+            </div>
+
+            <!-- Implementation -->
+            <div class="float-anim float-delay-3 bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:border-brand-200 transition-all group">
+                <div class="w-12 h-12 bg-brand-50 rounded-xl flex items-center justify-center text-brand-600 mb-6 group-hover:scale-110 transition-transform">
+                    <i data-lucide="users" class="w-6 h-6"></i>
+                </div>
+                <h4 class="text-xl font-bold text-slate-900 mb-3">Implementation Partners</h4>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    We seamlessly integrate with your existing workforce to augment your team's capabilities, solving complex technical needs and ensuring smooth rollouts.
+                </p>
+            </div>
+        </div>
+
+        <!-- About / Heritage Section -->
+        <div class="mt-16 md:mt-24 max-w-5xl mx-auto px-6 w-full fade-in delay-300">
+            <div class="bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-slate-100 flex flex-col lg:flex-row items-center gap-10 md:gap-16 text-left relative overflow-hidden group hover:border-brand-200 transition-all">
+                <!-- Subtle background decoration -->
+                <div class="absolute top-0 right-0 w-64 h-64 bg-brand-50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 opacity-50 group-hover:opacity-100 transition-opacity"></div>
 
                 <!-- Text Content -->
-                <div class="w-full lg:w-1/2 fade-up delay-200">
-                    <h2 class="text-brand-600 font-semibold tracking-wide uppercase text-sm mb-2">Our Specialization</h2>
-                    <h3 class="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Tailoring to suit operational complexities.</h3>
-                    <p class="text-slate-600 mb-6 text-lg leading-relaxed">
+                <div class="lg:w-2/3 relative z-10">
+                    <h3 class="text-brand-600 font-semibold tracking-wide uppercase text-xs mb-4 flex items-center gap-2">
+                        <i data-lucide="shield-check" class="w-4 h-4"></i> Who We Are
+                    </h3>
+                    <p class="text-slate-700 mb-5 text-base md:text-lg leading-relaxed">
                         Teklucent is a Canadian-owned business with over a decade of expertise in solving critical business problems. We understand that in healthcare and telecommunications, failure is not an option.
                     </p>
-                    <p class="text-slate-600 mb-8 text-lg leading-relaxed">
+                    <p class="text-slate-600 text-base md:text-lg leading-relaxed font-light">
                         We are a passionate group of engineers dedicated to improving the quality of human life by leveraging advanced technology, building compliant, robust, and innovative digital solutions.
                     </p>
-                    
-                    <div class="grid grid-cols-2 gap-6 pt-6 border-t border-slate-100">
-                        <div>
-                            <p class="text-4xl font-extrabold text-brand-500 mb-1">10+</p>
-                            <p class="text-sm font-medium text-slate-500">Years of Expertise</p>
-                        </div>
-                        <div>
-                            <p class="text-4xl font-extrabold text-brand-500 mb-1">100%</p>
-                            <p class="text-sm font-medium text-slate-500">Driven by Insight</p>
-                        </div>
+                </div>
+
+                <!-- Stats -->
+                <div class="lg:w-1/3 flex flex-row lg:flex-col gap-8 w-full justify-center lg:justify-start relative z-10 border-t lg:border-t-0 lg:border-l border-slate-100 pt-8 lg:pt-0 lg:pl-12">
+                    <div>
+                        <p class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-1 tracking-tight">10<span class="text-brand-500">+</span></p>
+                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-widest">Years of Expertise</p>
+                    </div>
+                    <div>
+                        <p class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-1 tracking-tight">100<span class="text-brand-500">%</span></p>
+                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-widest">Driven by Insight</p>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- Contact CTA Section -->
-    <section class="py-24 relative overflow-hidden">
-        <!-- Background elements -->
-        <div class="absolute inset-0 bg-slate-900 z-0"></div>
-        <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-600/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 z-0"></div>
-        
-        <div class="max-w-4xl mx-auto px-6 text-center relative z-10 fade-up">
-            <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">Ready to illuminate your next project?</h2>
-            <p class="text-xl text-slate-300 mb-12 max-w-2xl mx-auto">
-                Whether you need a strategic roadmap or a dedicated engineering team, we're here to help bring your healthcare technology to life.
-            </p>
-            
-            <div class="bg-white/10 backdrop-blur-lg border border-white/20 p-8 md:p-12 rounded-3xl shadow-2xl inline-block w-full max-w-2xl">
-                <i data-lucide="mail" class="w-12 h-12 text-brand-400 mx-auto mb-6"></i>
-                <h3 class="text-2xl font-semibold text-white mb-2">Drop us a message.</h3>
-                <p class="text-slate-400 mb-8">We usually respond within 24 hours to discuss your needs.</p>
-                
-                <a href="mailto:info@teklucent.com" class="group flex items-center justify-center gap-4 bg-brand-500 hover:bg-brand-400 text-white text-xl md:text-3xl font-bold py-6 px-8 rounded-2xl transition-all shadow-lg hover:shadow-brand-500/50 hover:-translate-y-1">
-                    info@teklucent.com
-                    <i data-lucide="external-link" class="w-6 h-6 opacity-50 group-hover:opacity-100 transition-opacity"></i>
-                </a>
-            </div>
-        </div>
-    </section>
+    </main>
 
-    <!-- Footer -->
-    <footer class="bg-slate-950 text-slate-400 py-12 border-t border-white/10">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
-            <a href="#" class="flex items-center bg-white/5 p-2 rounded-xl hover:bg-white/10 transition-colors">
-                <img src="logo.png" alt="Teklucent Logo" class="h-10 w-auto object-contain" onerror="this.onerror=null; this.src='https://via.placeholder.com/150x45/f97316/ffffff?text=Logo+Missing';">
-            </a>
-            
-            <p class="text-sm text-center md:text-left">
-                &copy; <span id="year"></span> Teklucent Inc. Illuminating Tech Solutions for Digital Tomorrow. All rights reserved.
-            </p>
-            
-            <div class="flex gap-4">
-                <a href="#" class="hover:text-brand-400 transition-colors"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
-                <a href="#" class="hover:text-brand-400 transition-colors"><i data-lucide="twitter" class="w-5 h-5"></i></a>
-            </div>
+    <!-- Minimalist Footer -->
+    <footer class="relative z-10 w-full px-6 py-6 md:px-12 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs font-medium text-slate-400 fade-in delay-300">
+        <p>&copy; <span id="year"></span> Teklucent Inc. All rights reserved.</p>
+        <div class="flex items-center gap-6">
+            <a href="#" class="hover:text-brand-600 transition-colors">LinkedIn</a>
+            <a href="#" class="hover:text-brand-600 transition-colors">Twitter</a>
         </div>
     </footer>
 
-    <!-- Initialize Scripts -->
     <script>
         // Initialize Icons
         lucide.createIcons();
-
-        // Set Current Year in Footer
+        // Set Year
         document.getElementById('year').textContent = new Date().getFullYear();
-
-        // Scroll Animation Logic (Intersection Observer)
-        document.addEventListener("DOMContentLoaded", () => {
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.15
-            };
-
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        // Optional: stop observing once animated to keep it visible
-                        // observer.unobserve(entry.target); 
-                    }
-                });
-            }, observerOptions);
-
-            const fadeElements = document.querySelectorAll('.fade-up');
-            fadeElements.forEach(el => {
-                observer.observe(el);
-            });
-        });
     </script>
 </body>
 </html>
